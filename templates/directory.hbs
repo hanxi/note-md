@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+</head>
+
+<body>
+
+<div id="header">
+    <div class="path-nav">
+        {{#each paths}}
+            <a href="{{path}}">{{name}}</a>&nbsp;»&nbsp;
+        {{/each}}
+    </div>
+</div>
+
+<div id="container">
+    <ul>
+     {{#each notes}}
+         <li><a href="{{path}}">{{title}}</a></li>
+     {{/each}}
+     <ul>
+</div>
+
+<div id="footer">
+</div>
+
+</body>
+
+</html>
