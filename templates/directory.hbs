@@ -1,40 +1,40 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <link rel="stylesheet" href="/mobi.css/dist/mobi.min.css">
-    <link rel="stylesheet" href="/assets/css/theme.css">
-    <link rel="shortcut icon" href="/assets/favicon.ico">
+        <link rel="stylesheet" href="/mobi.css/dist/mobi.min.css">
+        <link rel="stylesheet" href="/assets/css/theme.css">
+        <link rel="shortcut icon" href="/assets/favicon.ico">
 
-    <title>note-md.{{title}}</title>
-</head>
+        <title>note-md.{{title}}</title>
+    </head>
 
-<body>
+    <body>
 
-	<div class="flex-center">
-		<div class="container">
-			<header class="theme-header">
-				<nav class="flex-left">
-					{{#each paths}}
-						<a href="{{path}}">{{name}}</a>&nbsp;»&nbsp;
-					{{/each}}
-				</nav>
-			</header>
+        <div class="flex-center">
+            <div class="container">
+                <header class="theme-header">
+                    <nav class="flex-left">
+                        {{#each paths}}
+                            <a href="{{path}}">{{name}}</a>&nbsp;»&nbsp;
+                        {{/each}}
+                    </nav>
+                </header>
 
-            <ul class="top-gap-big text-muted">
-             {{#each notes}}
-                 <li><a href="{{path}}">{{title}}</a></li>
-             {{/each}}
-             </ul>
+                <ul class="top-gap-big text-muted">
+                    {{#each notes}}
+                        <li><a href="{{path}}">{{title}}</a></li>
+                    {{/each}}
+                </ul>
 
-            {{{footer}}}
-		</div>
-	</div>
+                {{{footer}}}
+            </div>
+        </div>
 
-</body>
+    </body>
 
 </html>
