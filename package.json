@@ -23,6 +23,7 @@
   "homepage": "https://github.com/hanxi/note-md#readme",
   "dependencies": {
     "handlebars": "^4.0.6",
+    "mobi.css": "^1.1.0",
     "showdown": "^1.5.5"
   }
 }

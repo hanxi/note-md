@@ -7,6 +7,7 @@ const fs = require('fs');
 const handlebars = require('handlebars');
 const directoryTemplate = require('./templates/directory.hbs');
 const noteTemplate = require('./templates/note.hbs');
+const footerTemplate = require('./templates/footer.hbs');
 const showdown  = require('showdown');
 showdown.setFlavor('github');
 const converter = new showdown.Converter();
@@ -31,7 +32,7 @@ const asyncExistsFile = (filename) => {
         })
     });
 }
-const staticFilePaths = [process.cwd(), noteDir];
+const staticFilePaths = [process.cwd(), noteDir, 'node_modules'];
 const existsStaticFile = (pathname, callback) => {
     let promiseArr = [];
     for (let parrentPath of staticFilePaths) {
@@ -117,8 +118,10 @@ const sendDirectoryRender = (res, pathname, dirname) => {
     let paths = generatePaths(pathname);
     generateNotes(pathname, dirname, (notes) => {
         let data = {
+            'title': pathname.replace(/.*\/([^/])/, '$1'),
             'paths': paths,
-            'notes': notes
+            'notes': notes,
+			'footer': footerTemplate()
         };
         res.end(directoryTemplate(data));
     });
@@ -146,8 +149,10 @@ const sendNoteRender = (res, pathname, filename) => {
     let paths = generatePaths(pathname);
     parseNote(filename, (note) => {
         let data = {
+            'title': pathname.replace(/.*\//, ''),
             'paths': paths,
-            'note': note
+            'note': note,
+			'footer': footerTemplate()
         };
         res.end(noteTemplate(data));
     });

@@ -2,24 +2,36 @@
 <html>
 
 <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="/mobi.css/dist/mobi.min.css">
+    <link rel="stylesheet" href="/assets/css/theme.css">
+    <link rel="shortcut icon" href="/assets/favicon.ico">
+
+    <title>note-md.{{title}}</title>
 </head>
 
 <body>
 
-<div id="header">
-    <div class="path-nav">
-        {{#each paths}}
-            <a href="{{path}}">{{name}}</a>&nbsp;»&nbsp;
-        {{/each}}
-    </div>
-</div>
+	<div class="flex-center">
+		<div class="container">
+			<header class="theme-header">
+				<nav class="flex-left">
+					{{#each paths}}
+						<a href="{{path}}">{{name}}</a>&nbsp;»&nbsp;
+					{{/each}}
+				</nav>
+			</header>
 
-<div id="container">
-    {{{note}}}
-</div>
+			<article>
+				{{{note}}}
+			</article>
 
-<div id="footer">
-</div>
+            {{{footer}}}
+		</div>
+	</div>
 
 </body>
 
