@@ -8,6 +8,7 @@ const handlebars = require('handlebars');
 const directoryTemplate = require('./templates/directory.hbs');
 const noteTemplate = require('./templates/note.hbs');
 const footerTemplate = require('./templates/footer.hbs');
+const git = require('./git');
 const showdown  = require('showdown');
 showdown.setFlavor('github');
 const converter = new showdown.Converter();
@@ -27,7 +28,8 @@ const mimeTypes = {
 
 const asyncExistsFile = (filename) => {
     return new Promise(function(resolve, reject) {
-        fs.exists(filename, (exists) => {
+        fs.access(filename, (err) => {
+            let exists = err ? false : true;
             resolve([filename, exists]);
         })
     });
@@ -106,7 +108,9 @@ const generateNotes = (pathname, dirname, callback) => {
         let notes = [];
         let promiseArr = [];
         for (let p of files) {
-            promiseArr.push(asyncGetNotes(notes, pathname, dirname, p));
+            if (p.substr(0,1)!=='.') {
+                promiseArr.push(asyncGetNotes(notes, pathname, dirname, p));
+            }
         }
         Promise.all(promiseArr).then((results) => {
             callback(notes);
@@ -174,7 +178,8 @@ const requestHandler = (req, res) => {
     } else {
         if (pathname.substr(-1)==='/') {
             let dirname = path.join(noteDir, pathname);
-            fs.exists(dirname, (exists) => {
+            fs.access(dirname, (err) => {
+                let exists = err ? false : true;
                 if (!exists) {
                     return notFound(req, res);
                 }
@@ -182,7 +187,8 @@ const requestHandler = (req, res) => {
             });
         } else if (pathname.substr(-3)==='.md') {
             let filename = path.join(noteDir, pathname);
-            fs.exists(filename, (exists) => {
+            fs.access(filename, (err) => {
+                let exists = err ? false : true;
                 if (!exists) {
                     return notFound(req, res);
                 }
@@ -202,4 +208,8 @@ server.listen(port, (err) => {
     }
     console.log(`server is listening on ${port}`);
 });
+
+const autoBackupInterval = 30*60*1000; // 半小时备份一次
+git.backup(); // 启动时备份一次
+setInterval(git.backup, autoBackupInterval);
 
