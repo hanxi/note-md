@@ -25,9 +25,9 @@ const myExec = function(cmd) {
     return promise;
 };
 
-let api = {};
+let _M= {};
 
-api.init = () => {
+_M.init = () => {
     let exists = fs.existsSync(noteDir);
     if (!exists) {
         fs.mkdirSync(noteDir);
@@ -42,7 +42,7 @@ api.init = () => {
     );
 }
 
-api.backup = () => {
+_M.backup = () => {
     myExec('git add .').then(
         () => myExec('git commit -a -m "auto backup"')
     ).then(
@@ -55,10 +55,10 @@ api.backup = () => {
 
 const method = process.argv[2];
 if ((typeof method)==='string') {
-    if (method in api) {
-        api[method]();
+    if (method in _M) {
+        _M[method]();
     }
 }
 
-module.exports = api;
+module.exports = _M;
 
