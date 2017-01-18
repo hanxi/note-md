@@ -22,10 +22,12 @@ const notFound = (req, res) => {
     res.end(JSON.stringify(ret));
 };
 
-register('/tree', function(req, res) {
-});
+const resJson = (req, res, json) => {
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.end(JSON.stringify(json));
+};
 
-register('/list', function(req, res) {
+register('/folder', function(req, res) {
     let uri = parser.parse(req.url, true);
     let pathname = uri.query.pathname;
     let dirname = path.join(C.noteDir, pathname);
@@ -34,10 +36,41 @@ register('/list', function(req, res) {
         if (!exists) {
             return notFound(req, res);
         }
-        note.getNoteList(pathname, dirname, (notes) => {
-            res.writeHead(200, {'Content-Type': 'application/json'});
-            res.end(JSON.stringify(notes));
+        note.getFolderList(pathname, dirname, (folder) => {
+            return resJson(req, res, { folder });
         });
     });
+});
+
+register('/noteList', function(req, res) {
+    let uri = parser.parse(req.url, true);
+    let pathname = uri.query.pathname;
+    let dirname = path.join(C.noteDir, pathname);
+    console.log('dirname', dirname);
+    fs.access(dirname, (err) => {
+        let exists = err ? false : true;
+        if (!exists) {
+            return notFound(req, res);
+        }
+        note.getNoteList(pathname, dirname, (noteList) => {
+            return resJson(req, res, { noteList });
+        });
+    });
+});
+
+register('/note', function(req, res) {
+    let uri = parser.parse(req.url, true);
+    let pathname = uri.query.pathname;
+    let filename = path.join(C.noteDir, pathname);
+    fs.access(filename, (err) => {
+        let exists = err ? false : true;
+        if (!exists) {
+            return notFound(req, res);
+        }
+        note.getNote(filename, (content) => {
+            return resJson(req, res, {content});
+        });
+    });
+
 });
 

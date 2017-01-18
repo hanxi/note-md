@@ -31,24 +31,7 @@ const missing = (req, callback) => {
             callback(handler);
         });
     } else {
-        if (uri.pathname.substr(-3)==='.md') {
-            let filename = path.join(C.noteDir, uri.pathname);
-            fs.access(filename, (err) => {
-                let exists = err ? false : true;
-                if (!exists) {
-                    return callback(notFound());
-                }
-                note.getNote(filename, (note) => {
-                    let handler = handlerFactory.createHandler((req, res) => {
-                        res.writeHead(200, {'Content-Type': 'text/html'});
-                        res.end(note);
-                    });
-                    callback(handler);
-                });
-            });
-        } else {
-            callback(notFound());
-        }
+        callback(notFound());
     }
 };
 
@@ -108,5 +91,4 @@ const existsStaticFile = (pathname, callback) => {
 exports.addStaticPath = (p) => {
     staticFilePaths.add(p);
 };
-
 

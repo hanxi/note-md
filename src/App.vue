@@ -1,60 +1,90 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://gitter.im/vuejs/vue" target="_blank">Gitter Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
-  </div>
+    <div>
+        <v-header></v-header>
+        <v-content v-show="contentType=='list'">
+            <div>
+                <ul class="top-gap-big text-muted">
+                    <li v-for="item in noteList">
+                        <v-link :href="item.path">{{item.title}}</v-link>
+                    </li>
+                </ul>
+            </div>
+        </v-content>
+        <v-content v-show="contentType=='note'">
+            <div>
+                <p
+                v-on:click="back"
+                >back</P>
+                <p
+                v-on:click="forward"
+                >forward</P>
+                <p
+                v-on:click="replace"
+                >replace</P>
+            </div>
+            <div v-html="note"></div>
+        </v-content>
+        <v-footer></v-footer>
+    </div>
 </template>
-
 <script>
+import util from 'util';
+
 export default {
-  name: 'app',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js AppS'
+    data () {
+        return {
+            noteList: [],
+            note: '',
+            loading: false
+        };
+    },
+    computed: {
+        contentType () {
+            let contentType = 'note';
+            let path = this.$root.currentRoute;
+            if (path && path.substr(-1)==='/') {
+                contentType = 'list';
+                console.log('list');
+                this.getNoteList();
+            } else {
+                this.getNote();
+            }
+            return contentType;
+        }
+    },
+    methods: {
+        back () {
+            this.$root.go(-1);
+        },
+        forward () {
+            this.$root.go(1);
+        },
+        replace () {
+            this.$root.replace(this.$root.currentRoute+'/x');
+        },
+        getNote () {
+            this.loading = true;
+            util.get('/api/note', {
+                pathname: this.$root.currentRoute
+            }, (res) => {
+                this.loading = false;
+                this.note = res.content;
+            }, (err) => {
+                this.loading = false;
+            });
+        },
+        getNoteList () {
+            this.loading = true;
+            util.get('/api/noteList', {
+                pathname: this.$root.currentRoute
+            }, (res) => {
+                this.loading = false;
+                this.noteList = res.noteList;
+            }, (err) => {
+                this.loading = false;
+            });
+        }
     }
-  }
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
-</style>

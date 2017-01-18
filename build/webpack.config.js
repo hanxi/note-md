@@ -61,8 +61,11 @@ module.exports = {
 		]
 	},
 	resolve: {
+        extensions: ['.js', '.vue'], //后缀名自动补全
 		alias: {
-			'vue$': 'vue/dist/vue.common.js'
+			'vue$': 'vue/dist/vue.common.js',
+            store: path.resolve('src/store/'),
+            util: path.resolve('src/util/index.js')
 		}
 	},
 	devServer: {
@@ -73,15 +76,6 @@ module.exports = {
             {
                 context: '/api/**',
                 target: 'http://10.5.9.57:3000',
-            },
-            function() {
-                return {
-                    context: function(pathname, req) {
-                        var ext = path.extname(pathname);
-                        return (ext!=='.css' && ext!=='.js');
-                    },
-                    target: 'http://10.5.9.57:3000',
-                }
             }
         ]
 	},

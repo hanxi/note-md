@@ -25,9 +25,12 @@
   "homepage": "https://github.com/hanxi/note-md#readme",
   "dependencies": {
     "handlebars": "^4.0.6",
+    "is": "^3.2.0",
     "mobi.css": "^1.1.0",
     "showdown": "^1.5.5",
-    "vue": "^2.1.0"
+    "vue": "^2.1.0",
+    "vue-resource": "^1.0.3",
+    "vuex": "^2.1.1"
   },
   "devDependencies": {
     "babel-core": "^6.0.0",
