@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
+import 'mobi.css';
+
 import components from './components/'; //加载公共组件
 import App from './App';
 
