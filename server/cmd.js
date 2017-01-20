@@ -3,13 +3,11 @@
 const path = require('path')
 const fs = require('fs')
 const exec = require('child_process').exec
-
-const gitUrl = 'git@github.com:hanxi/note-md-testbackup.git'
-const noteDir = path.join(process.cwd(), 'note')
+const C = require('./constant')
 
 const myExec = function (cmd) {
   const promise = new Promise(function (resolve, reject) {
-    exec(cmd, { cwd: noteDir }, (error, stdout, stderr) => {
+    exec(cmd, { cwd: C.noteDir }, (error, stdout, stderr) => {
       console.log('='.repeat(80))
       console.log(`cmd: ${cmd}`)
       console.log(`stdout: ${stdout}`)
@@ -28,12 +26,12 @@ const myExec = function (cmd) {
 const _M = {}
 
 _M.init = () => {
-  const exists = fs.existsSync(noteDir)
+  const exists = fs.existsSync(C.noteDir)
   if (!exists) {
-    fs.mkdirSync(noteDir)
+    fs.mkdirSync(C.noteDir)
   }
   myExec('git init').then(
-        () => myExec(`git remote add origin ${gitUrl}`)
+        () => myExec(`git remote add origin ${C.git}`)
     ).then(
         () => myExec('git pull origin master')
     ).then(

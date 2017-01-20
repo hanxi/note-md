@@ -32,8 +32,8 @@ server.listen(C.port, (err) => {
   console.log(`server is listening on ${C.port}`)
 })
 
-const git = require('./git')
+const cmd = require('./cmd')
 const autoBackupInterval = 30 * 60 * 1000 // 半小时备份一次
-git.backup() // 启动时备份一次
-setInterval(git.backup, autoBackupInterval)
+cmd.backup() // 启动时备份一次
+setInterval(cmd.backup, autoBackupInterval)
 
