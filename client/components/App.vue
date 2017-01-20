@@ -10,8 +10,7 @@
         <div id="left-drawer" class="mdui-drawer mdui-drawer-close mdui-shadow-5">
             <ul class="tree">
                     <v-tree
-                 :model="treeData"
-                 :root="this">
+                 :model="treeData">
                     </v-tree>
             </ul>
         </div>
@@ -25,10 +24,19 @@
             </div>
         </div>
         <div class="mdui-container-fluid">
-                <v-header></v-header>
+                <v-header>
+                    <span v-if="contentType!=='list'" class="mdui-col-xs-1">
+                    <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
+                        @click="timerToggle">
+                        <i v-if="timerIndex===-1"
+                            class="mdui-icon material-icons">&#xe426;</i>
+                        <i v-else class="mdui-icon material-icons">&#xe425;</i>
+                    </span>
+                    </span>
+                </v-header>
                 <div class="mdui-divider"></div>
 
-                <v-content v-show="contentType=='list'">
+                <v-content v-show="contentType==='list'">
                     <ul class="mdui-list">
                         <li v-for="item in noteList">
                             <v-link :href="item.path"
@@ -68,22 +76,23 @@ export default {
       treeData: {
         name: '个人笔记',
         children: [],
-        path: '/'
+        path: '/',
       },
-      activePath: ''
+      activePath: '',
+      timerIndex: -1
     }
   },
   computed: {
     contentType () {
       let contentType = 'note'
-      const path = this.$root.currentRoute
+      const path = this.currentRoute
       if (path && path.substr(-1) === '/') {
         contentType = 'list'
-        console.log('list')
         this.getNoteList()
       } else {
         this.getNote()
       }
+      console.log('contentType:', contentType)
       return contentType
     }
   },
@@ -91,7 +100,7 @@ export default {
     getNote () {
       this.loading = true
       util.get('/api/note', {
-        pathname: this.$root.currentRoute
+        pathname: this.currentRoute
       }, (res) => {
         this.loading = false
         this.note = res.content
@@ -102,7 +111,7 @@ export default {
     getNoteList () {
       this.loading = true
       util.get('/api/noteList', {
-        pathname: this.$root.currentRoute
+        pathname: this.currentRoute
       }, (res) => {
         this.loading = false
         this.noteList = res.noteList
@@ -140,14 +149,19 @@ export default {
       }
     },
     onSelected (model) {
-      this.$root.push(model.path)
+      this.push(model.path)
       if (!mdui.screen.mdUp()) {
           const inst = new mdui.Drawer('#left-drawer');
           inst.close();
       }
     },
-    openNote () {
-      console.log('xx')
+    timerToggle () {
+        if (this.timerIndex!==-1) {
+            clearInterval(this.timerIndex)
+            this.timerIndex = -1
+        } else {
+            this.timerIndex = setInterval(this.getNote, 1000)
+        }
     }
   }
 }

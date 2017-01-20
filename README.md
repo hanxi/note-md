@@ -24,7 +24,7 @@ npm start
 
 ### TODO
 
-- [ ] 实时刷新
+- [x] 实时刷新
 - [x] 定期备份 `note` 目录
 - [x] 目录树
 - [ ] 笔记搜索
@@ -32,5 +32,5 @@ npm start
 ### 这些库帮我减少了不少时间
 
 - Markdown 转 HTML [showdown](https://github.com/showdownjs/showdown)
-- ~~轻量灵活的移动端 CSS 框架 [mobi.css](https://github.com/xcatliu/mobi.css)~~
+- ~~轻量灵活的移动端 CSS 框架 [mobi.css](https://github.com/xcatliu/mobi.css)~~ (v0.0.1)
 - 基于 Material Design 的前端框架 [MDUI](https://github.com/zdhxiong/mdui)

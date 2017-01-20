@@ -13,7 +13,7 @@
 <template>
     <li class="menu-list-item">
         <a class="mdui-ripple"
-           :class="{'active': model.path===root.activePath}">
+           :class="{'active': model.path===$root.activePath}">
             <i
                 v-if="isFolder"
                 @click="toggle"
@@ -31,8 +31,7 @@
         <ul class="" style="list-style-type:none; padding:0px;" v-show="open" v-if="isFolder">
             <v-tree
                           v-for="model in orderedChildren"
-                          :model="model"
-                          :root="root">
+                          :model="model">
             </v-tree>
         </ul>
     </li>
@@ -43,8 +42,7 @@ import is from 'is'
 
 export default {
   props: {
-    model: Object,
-    root: Object
+    model: Object
   },
   data () {
     return {
@@ -82,10 +80,10 @@ export default {
       })
     },
     selected () {
-      if (is.fn(this.root.onSelected)) {
-        this.root.onSelected(this.model)
+      if (is.fn(this.$root.onSelected)) {
+        this.$root.onSelected(this.model)
       }
-      this.root.activePath = this.model.path
+      this.$root.activePath = this.model.path
     }
   },
   watch: {
@@ -95,15 +93,15 @@ export default {
       }
       if (val) {
         console.log('open', this.model.path)
-        if (this.root.hasOwnProperty('onOpened') &&
-                    is.fn(this.root.onOpened)) {
-          this.root.onOpened(this.model)
+        if (this.$root.hasOwnProperty('onOpened') &&
+                    is.fn(this.$root.onOpened)) {
+          this.$root.onOpened(this.model)
         }
       } else {
         console.log('close', this.model.path)
-        if (this.root.hasOwnProperty('onClosed') &&
-                    is.fn(this.root.onClosed)) {
-          this.root.onClosed(this.model)
+        if (this.$root.hasOwnProperty('onClosed') &&
+                    is.fn(this.$root.onClosed)) {
+          this.$root.onClosed(this.model)
         }
       }
     }
