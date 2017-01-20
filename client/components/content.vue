@@ -1,6 +1,6 @@
 <style scoped>
 .content {
-    min-height: 500px;
+    min-height: 400px;
 }
 </style>
 <template>

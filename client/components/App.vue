@@ -25,7 +25,7 @@
         </div>
         <div class="mdui-container-fluid">
                 <v-header>
-                    <span v-if="contentType!=='list'" class="mdui-col-xs-1">
+                    <span v-if="contentType!=='list'">
                     <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
                         @click="timerToggle">
                         <i v-if="timerIndex===-1"
