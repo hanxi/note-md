@@ -4,9 +4,16 @@
     margin: 0px;
     padding: 0px;
 }
+.searchbar {
+    max-width: 300px;
+}
+.content {
+    min-height: 400px;
+}
 </style>
 <template>
     <div class="mdui-appbar-with-toolbar mdui-drawer-body-left mdui-theme-primary-blue mdui-theme-accent-light-blue">
+
         <div id="left-drawer" class="mdui-drawer mdui-drawer-close mdui-shadow-5">
             <ul class="tree">
                     <v-tree
@@ -14,6 +21,7 @@
                     </v-tree>
             </ul>
         </div>
+
         <div class="mdui-appbar mdui-appbar-fixed">
             <div class="mdui-toolbar mdui-color-theme">
                 <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" mdui-drawer="{target: '#left-drawer'}">
@@ -21,55 +29,54 @@
                 </span>
                 <span class="mdui-typo-title">{{treeData.name}}</span>
                 <div class="mdui-toolbar-spacer"></div>
+                <div class="mdui-textfield mdui-textfield-expandable mdui-float-right searchbar">
+                    <button class="mdui-textfield-icon mdui-btn mdui-btn-icon"
+                        @click="search">
+                        <i class="mdui-icon material-icons">&#xe8b6;</i>
+                    </button>
+                    <input class="mdui-textfield-input" type="text" placeholder="搜索"
+                        @keyup.enter="search"
+                        v-model="searchText"/>
+                    <button 
+                        @click="searchText=''"
+                        class="mdui-textfield-close mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">&#xe5cd;</i></button>
+                </div>
             </div>
         </div>
+
         <div class="mdui-container-fluid">
-                <v-header>
-                    <span v-if="contentType!=='list'">
-                    <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
-                        @click="timerToggle">
-                        <i v-if="timerIndex===-1"
-                            class="mdui-icon material-icons">&#xe426;</i>
-                        <i v-else class="mdui-icon material-icons">&#xe425;</i>
-                    </span>
+                <v-header v-if="page!=='search'">
+                    <span v-if="page==='note'">
+                        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
+                            @click="timerToggle">
+                            <i v-if="timerIndex===-1"
+                                class="mdui-icon material-icons">&#xe426;</i>
+                            <i v-else class="mdui-icon material-icons">&#xe425;</i>
+                        </span>
                     </span>
                 </v-header>
+
                 <div class="mdui-divider"></div>
 
-                <v-content v-show="contentType==='list'">
-                    <ul class="mdui-list">
-                        <div v-for="item in noteList">
-                        <li>
-                            <v-link :href="item.path"
-                                class="mdui-list-item mdui-ripple">
-                                <i class="mdui-list-item-avatar mdui-icon material-icons mdui-color-blue mdui-text-color-white">{{'&#xe85d;'}}</i>
-                                <div class="mdui-list-item-content">
-                                    <div class="mdui-list-item-title mdui-list-item-one-line">
-                                        <span class="mdui-typo-title">
-                                        {{item.title}}
-                                        </span>
-                                    </div>
-                                    <div class="mdui-list-item-text mdui-list-item-two-line">
-                                        <span class="mdui-text-color-theme-text">
-                                            {{item.updateTime}} 
-                                        <br>
-                                        </span>
-                                        {{item.preview}}
-                                    </div>
-                                </div>
-                            </v-link>
-                        </li>
-                        <li v-if="!item.isLast" class="mdui-divider-inset mdui-m-y-0"></li>
-                        </div>
-                    </ul>
-                </v-content>
-                <v-content v-show="contentType=='note'">
-                    <div class="mdui-container">
+                <div class="mdui-container-fluid content">
+                    <v-list 
+                        v-show="page==='list'"
+                        :note-list="noteList"></v-list>
+
+                    <div
+                        v-show="page=='note'"
+                        class="mdui-container">
                         <div v-html="note"></div>
                     </div>
-                </v-content>
+
+                    <v-list
+                        v-show="page=='search'"
+                        :note-list="noteList">
+                    </v-list>
+                </div>
 
                 <div class="mdui-divider"></div>
+
 				<v-footer></v-footer>
         </div>
     </div>
@@ -77,7 +84,9 @@
 <script>
 import Vue from 'vue'
 import util from 'util'
+/* global mdui */
 import 'mdui/dist/js/mdui.js'
+import queryString from 'query-string'
 
 export default {
   data () {
@@ -89,24 +98,27 @@ export default {
       treeData: {
         name: '个人笔记',
         children: [],
-        path: '/',
+        path: '/'
       },
       activePath: '',
-      timerIndex: -1
+      timerIndex: -1,
+      searchText: ''
     }
   },
   computed: {
-    contentType () {
-      let contentType = 'note'
+    page () {
+      let page = 'note'
       const path = this.currentRoute
-      if (path && path.substr(-1) === '/') {
-        contentType = 'list'
+      if (path && path.indexOf('/search') !== -1) {
+        page = 'search'
+      } else if (path && path.substr(-1) === '/') {
+        page = 'list'
         this.getNoteList()
       } else {
         this.getNote()
       }
-      console.log('contentType:', contentType)
-      return contentType
+      console.log('page:', page)
+      return page
     }
   },
   methods: {
@@ -126,11 +138,20 @@ export default {
       util.get('/api/noteList', {
         pathname: this.currentRoute
       }, (res) => {
-        if (res.noteList.length>0) {
-          res.noteList[res.noteList.length-1].isLast = true;
+        if (res.noteList.length > 0) {
+          res.noteList[res.noteList.length - 1].isLast = true
         }
         this.loading = false
-        this.noteList = res.noteList
+        const noteList = []
+        for (const item of res.noteList) {
+          noteList.push({
+            title: item.title,
+            firstLine: item.updateTime,
+            secondLine: item.preview,
+            path: item.path
+          })
+        }
+        this.noteList = noteList
       }, () => {
         this.loading = false
       })
@@ -167,17 +188,49 @@ export default {
     onSelected (model) {
       this.push(model.path)
       if (!mdui.screen.mdUp()) {
-          const inst = new mdui.Drawer('#left-drawer');
-          inst.close();
+        const inst = new mdui.Drawer('#left-drawer')
+        inst.close()
       }
     },
     timerToggle () {
-        if (this.timerIndex!==-1) {
-            clearInterval(this.timerIndex)
-            this.timerIndex = -1
-        } else {
-            this.timerIndex = setInterval(this.getNote, 1000)
-        }
+      if (this.timerIndex !== -1) {
+        clearInterval(this.timerIndex)
+        this.timerIndex = -1
+      } else {
+        this.timerIndex = setInterval(this.getNote, 1000)
+      }
+    },
+    search () {
+      if (this.searchText !== '') {
+        this.push('/search?q=' + this.searchText)
+        this.getSearchList()
+      }
+    },
+    getSearchList () {
+      this.loading = true
+      const parsed = queryString.parse(window.location.search)
+      if (parsed.q && parsed.q !== '') {
+        util.get('/api/search', {
+          text: parsed.q
+        }, (res) => {
+          console.log('res', res)
+          this.loading = false
+          const noteList = []
+          for (const title of Object.keys(res.results)) {
+            console.log(title)
+            const item = res.results[title]
+            noteList.push({
+              title: title,
+              firstLine: item.matches[0],
+              secondLine: item.line[0],
+              path: '/' + title
+            })
+          }
+          this.noteList = noteList
+        }, () => {
+          this.loading = false
+        })
+      }
     }
   }
 }

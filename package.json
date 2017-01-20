@@ -26,11 +26,13 @@
   "homepage": "https://github.com/hanxi/note-md#readme",
   "dependencies": {
     "babel-runtime": "^6.18.0",
+    "find-in-files": "^0.3.1",
     "is": "^3.2.0",
     "mdui": "^0.1.2",
     "mime-types": "^2.1.14",
     "moment": "^2.17.1",
     "promise-polyfill": "^6.0.2",
+    "query-string": "^4.3.1",
     "remove-markdown": "^0.1.0",
     "showdown": "^1.5.5",
     "vue": "^2.1.0",

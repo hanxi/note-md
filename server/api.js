@@ -6,6 +6,7 @@ const parser = require('url')
 
 const router = require('./router')
 const note = require('./note')
+const search = require('./search')
 const C = require('./constant')
 
 const register = (url, method) => {
@@ -70,6 +71,14 @@ register('/note', function (req, res) {
     note.getNote(filename, (content) => {
       return resJson(req, res, { content })
     })
+  })
+})
+
+register('/search', function (req, res) {
+  const uri = parser.parse(req.url, true)
+  const text = uri.query.text
+  search(text, (results) => {
+    return resJson(req, res, { results })
   })
 })
 

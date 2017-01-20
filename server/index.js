@@ -21,7 +21,11 @@ router.notFound((req, res) => {
 
 const server = http.createServer((req, res) => {
   router.route(req, (handler) => {
-    handler.process(req, res)
+    try {
+      handler.process(req, res)
+    } catch (e) {
+      console.error(e)
+    }
   })
 })
 
