@@ -28,6 +28,7 @@
     "babel-runtime": "^6.18.0",
     "is": "^3.2.0",
     "mdui": "^0.1.2",
+    "mime-types": "^2.1.14",
     "promise-polyfill": "^6.0.2",
     "showdown": "^1.5.5",
     "vue": "^2.1.0",

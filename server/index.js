@@ -13,8 +13,8 @@ router.addStaticPath(C.dist)
 const index = fs.readFileSync(`${C.dist}/index.html`)
 
 router.notFound((req, res) => {
-  console.log('xxxxxxxxxxxxxxxxxxx')
-    // 返回 index.html
+  console.log('Not Found ' + req.url)
+  // 返回 index.html
   res.writeHead(200, { 'Content-Type': 'text/html' })
   res.end(index)
 })

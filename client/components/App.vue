@@ -18,7 +18,7 @@
         <div class="mdui-appbar mdui-appbar-fixed">
             <div class="mdui-toolbar mdui-color-theme">
                 <button class="mdui-btn" mdui-drawer="{target: '#left-drawer'}">
-                    <i class="mdui-icon material-icons">&#xe5d2;</i>
+                    <i class="mdui-icon material-icons">{{'&#xe5d2;'}}</i>
                 </button>
                 <span class="mdui-typo-title">{{treeData.name}}</span>
                 <div class="mdui-toolbar-spacer"></div>
@@ -33,7 +33,7 @@
                         <li v-for="item in noteList">
                             <v-link :href="item.path"
                                 class="mdui-list-item mdui-ripple">
-                                <i class="mdui-list-item-avatar mdui-icon material-icons mdui-color-blue mdui-text-color-white">&#xe85d;</i>
+                                <i class="mdui-list-item-avatar mdui-icon material-icons mdui-color-blue mdui-text-color-white">{{'&#xe85d;'}}</i>
                                 <div class="mdui-list-item-content">
                                     <div class="mdui-list-item-title">
                                         {{item.title}}

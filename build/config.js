@@ -11,7 +11,8 @@ module.exports = {
   vendor: [
     'vue',
     'vuex',
-    'promise-polyfill'
+    'promise-polyfill',
+    'mdui'
   ],
   // disable babelrc by default
   babel: {

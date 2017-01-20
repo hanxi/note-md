@@ -4,6 +4,7 @@ const handlerFactory = require('./handler')
 const fs = require('fs')
 const parser = require('url')
 const path = require('path')
+const mime = require('mime-types')
 let handlers = {}
 
 const notFounds = {
@@ -17,7 +18,10 @@ const notFounds = {
 
 const missing = (req, callback) => {
   const uri = parser.parse(req.url, true)
-  const mimeType = mimeTypes[path.extname(uri.pathname).split('.')[1]]
+  if (uri.pathname.substr(-3) === '.md') {
+    return callback(notFounds.default())
+  }
+  const mimeType = mime.lookup(uri.pathname)
   if (mimeType) {
     existsStaticFile(uri.pathname, (filename) => {
       if (!filename) {
@@ -55,15 +59,6 @@ exports.route = (req, callback) => {
   } else {
     callback(handler)
   }
-}
-
-const mimeTypes = {
-  'html': 'text/html',
-  'jpeg': 'image/jpeg',
-  'jpg': 'image/jpeg',
-  'png': 'image/png',
-  'js': 'text/javascript',
-  'css': 'text/css'
 }
 
 const staticFilePaths = new Set([process.cwd()])
