@@ -2,9 +2,12 @@
 
 const fs = require('fs')
 const path = require('path')
+const moment = require('moment')
+const removeMd = require('remove-markdown')
 const showdown = require('showdown')
 showdown.setFlavor('github')
 const converter = new showdown.Converter()
+converter.setOption('headerLevelStart', 2)
 
 const asyncGetFolder = (folder, pathname, dirname, p) => {
   const pname = path.join(dirname, p)
@@ -55,13 +58,22 @@ const asyncGetNote = (noteList, pathname, dirname, p) => {
   return new Promise(function (resolve, reject) {
     fs.stat(pname, (err, stat) => {
       if (!err && stat.isFile()) {
-                // TODO: read file head content
-        noteList.push({
-          'title': p,
-          'path': pathname + p
+        fs.readFile(pname, 'utf8', (err, text) => {
+          if (!err) {
+            const preview = removeMd(text)
+            // read file head content
+            noteList.push({
+              title: p,
+              path: pathname + p,
+              updateTime: moment(stat.mtime).format('YYYY-MM-DD HH:mm:ss'),
+              preview: preview
+            })
+          }
+          resolve()
         })
+      } else {
+        resolve()
       }
-      resolve()
     })
   })
 }

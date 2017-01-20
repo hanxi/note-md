@@ -38,22 +38,35 @@
 
                 <v-content v-show="contentType==='list'">
                     <ul class="mdui-list">
-                        <li v-for="item in noteList">
+                        <div v-for="item in noteList">
+                        <li>
                             <v-link :href="item.path"
                                 class="mdui-list-item mdui-ripple">
                                 <i class="mdui-list-item-avatar mdui-icon material-icons mdui-color-blue mdui-text-color-white">{{'&#xe85d;'}}</i>
                                 <div class="mdui-list-item-content">
-                                    <div class="mdui-list-item-title">
+                                    <div class="mdui-list-item-title mdui-list-item-one-line">
+                                        <span class="mdui-typo-title">
                                         {{item.title}}
+                                        </span>
                                     </div>
-                                    <div class="mdui-list-item-text">Jan 9, 2014</div>
+                                    <div class="mdui-list-item-text mdui-list-item-two-line">
+                                        <span class="mdui-text-color-theme-text">
+                                            {{item.updateTime}} 
+                                        <br>
+                                        </span>
+                                        {{item.preview}}
+                                    </div>
                                 </div>
                             </v-link>
                         </li>
+                        <li v-if="!item.isLast" class="mdui-divider-inset mdui-m-y-0"></li>
+                        </div>
                     </ul>
                 </v-content>
                 <v-content v-show="contentType=='note'">
-                    <div v-html="note"></div>
+                    <div class="mdui-container">
+                        <div v-html="note"></div>
+                    </div>
                 </v-content>
 
                 <div class="mdui-divider"></div>
@@ -113,6 +126,9 @@ export default {
       util.get('/api/noteList', {
         pathname: this.currentRoute
       }, (res) => {
+        if (res.noteList.length>0) {
+          res.noteList[res.noteList.length-1].isLast = true;
+        }
         this.loading = false
         this.noteList = res.noteList
       }, () => {

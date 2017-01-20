@@ -2,12 +2,14 @@
 </style>
 <template>
     <div class="mdui-container">
-        <div class="mdui-row-xs-5">
+        <div class="mdui-row">
             <slot></slot>
             <div v-for="item in paths" class="mdui-chip">
                 <v-link :href="item.path" class="mdui-chip-title">{{item.name}}</v-link>
             </div>
-            <span>{{current}}</span>
+        </div>
+        <div class="mdui-typo-title">
+            {{current}}
         </div>
     </div>
 </template>
