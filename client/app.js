@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import 'mdui/dist/css/mdui.css'
-import 'mdui/dist/js/mdui.js'
 
 import components from './components/' // 加载公共组件
 import App from './components/App'

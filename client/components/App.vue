@@ -56,6 +56,7 @@
 <script>
 import Vue from 'vue'
 import util from 'util'
+import 'mdui/dist/js/mdui.js'
 
 export default {
   data () {
@@ -140,6 +141,10 @@ export default {
     },
     onSelected (model) {
       this.$root.push(model.path)
+      if (!mdui.screen.mdUp()) {
+          const inst = new mdui.Drawer('#left-drawer');
+          inst.close();
+      }
     },
     openNote () {
       console.log('xx')

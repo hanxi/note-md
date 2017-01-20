@@ -13,8 +13,7 @@
 <template>
     <li class="menu-list-item">
         <a class="mdui-ripple"
-            :class="{'active': model.path===root.activePath}"
-            @click="selected">
+           :class="{'active': model.path===root.activePath}">
             <i
                 v-if="isFolder"
                 @click="toggle"
@@ -23,7 +22,9 @@
                 
             </i>
             <i v-else class="mdui-icon material-icons mdui-text-color-blue-a100">&#xe24d;</i>
+            <span @click="selected">
                 {{model.name}}
+            </span>
 
         </a>
 
