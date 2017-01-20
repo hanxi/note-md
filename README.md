@@ -8,6 +8,7 @@
 git clone https://github.com/hanxi/note-md.git
 cd node-md
 npm install
+npm run build
 npm start
 ```
 
