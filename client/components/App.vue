@@ -17,9 +17,9 @@
         </div>
         <div class="mdui-appbar mdui-appbar-fixed">
             <div class="mdui-toolbar mdui-color-theme">
-                <button class="mdui-btn" mdui-drawer="{target: '#left-drawer'}">
+                <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" mdui-drawer="{target: '#left-drawer'}">
                     <i class="mdui-icon material-icons">{{'&#xe5d2;'}}</i>
-                </button>
+                </span>
                 <span class="mdui-typo-title">{{treeData.name}}</span>
                 <div class="mdui-toolbar-spacer"></div>
             </div>
