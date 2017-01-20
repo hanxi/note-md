@@ -1,6 +1,7 @@
 'use strict';
 
 const http = require('http');
+const fs = require('fs');
 
 const C = require('./constant');
 const router = require('./router');
@@ -9,12 +10,14 @@ require('./api');
 router.addStaticPath(C.noteDir);
 router.addStaticPath(C.dist);
 
-const index = fs.readdirSync(`${C.dist}/index.html`);
+const index = fs.readFileSync(`${C.dist}/index.html`);
 
-router.register('/', function(req, res) {
-    // 返回 index.html
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    res.end(index);
+router.notFound( () => {
+    return handlerFactory.createHandler((req, res) => {
+        // 返回 index.html
+        res.writeHead(200, {'Content-Type': 'text/html'});
+        res.end(index);
+    });
 });
 
 const server = http.createServer((req, res) => {

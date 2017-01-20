@@ -8,7 +8,7 @@ const note = require('./note');
 const C = require('./constant');
 let handlers = {};
 
-const notFound = () => {
+let notFound = () => {
     return handlerFactory.createHandler((req, res) => {
         res.writeHead(404, {'Content-Type': 'text/plain'});
         res.end("No route registered for " + req.url);
@@ -33,6 +33,10 @@ const missing = (req, callback) => {
     } else {
         callback(notFound());
     }
+};
+
+exports.notFound = (func) => {
+    notFound = func;
 };
 
 exports.clear = () => {
