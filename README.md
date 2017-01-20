@@ -23,7 +23,7 @@ npm start
 - 前提是本地配好了 id_rsa 和 GitHub 上也填写好了 id_rsa.pub
 - 默认半小时提交一次
 
-### TODO
+### 功能
 
 - [x] 实时刷新
 - [x] 定期备份 `note` 目录
@@ -35,3 +35,5 @@ npm start
 - Markdown 转 HTML [showdown](https://github.com/showdownjs/showdown)
 - ~~轻量灵活的移动端 CSS 框架 [mobi.css](https://github.com/xcatliu/mobi.css)~~ (v0.0.1)
 - 基于 Material Design 的前端框架 [MDUI](https://github.com/zdhxiong/mdui)
+- 文件内容搜索工具 [find-in-files](https://github.com/kaesetoast/find-in-files)
+- 当然少不了 [Vue](https://cn.vuejs.org/)
