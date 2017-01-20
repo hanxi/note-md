@@ -8,11 +8,13 @@ const note = require('./note');
 const C = require('./constant');
 let handlers = {};
 
-let notFound = () => {
-    return handlerFactory.createHandler((req, res) => {
-        res.writeHead(404, {'Content-Type': 'text/plain'});
-        res.end("No route registered for " + req.url);
-    });
+let notFounds = {
+    default () {
+        return handlerFactory.createHandler((req, res) => {
+            res.writeHead(404, {'Content-Type': 'text/plain'});
+            res.end("No route registered for " + req.url);
+        });
+    }
 };
 
 const missing = (req, callback) => {
@@ -21,7 +23,7 @@ const missing = (req, callback) => {
     if (mimeType) {
         existsStaticFile(uri.pathname, (filename) => {
             if (!filename) {
-                return callback(notFound());
+                return callback(notFounds.default());
             }
             let handler = handlerFactory.createHandler((req, res) => {
                 res.writeHead(200, mimeType);
@@ -31,12 +33,12 @@ const missing = (req, callback) => {
             callback(handler);
         });
     } else {
-        callback(notFound());
+        callback(notFound.default());
     }
 };
 
 exports.notFound = (callback) => {
-    notFound => handlerFactory.createHandler(callback);
+    notFounds.default = () => handlerFactory.createHandler(callback);
 };
 
 exports.clear = () => {
