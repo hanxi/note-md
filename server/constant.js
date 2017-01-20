@@ -1,6 +1,7 @@
 const C = {
     port: 3000,
-    noteDir: 'note'
+    noteDir: 'note',
+    dist: 'dist'
 };
 
 module.exports = C;

@@ -7,11 +7,14 @@ const router = require('./router');
 require('./api');
 
 router.addStaticPath(C.noteDir);
+router.addStaticPath(C.dist);
+
+const index = fs.readdirSync(`${C.dist}/index.html`);
 
 router.register('/', function(req, res) {
-    // TODO: 返回 index.html
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.end('Hello World');
+    // 返回 index.html
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.end(index);
 });
 
 const server = http.createServer((req, res) => {
