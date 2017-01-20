@@ -44,7 +44,7 @@ _M.init = () => {
 
 _M.backup = () => {
   myExec('git add .').then(
-        () => myExec('git commit -a -m "auto backup"')
+        () => myExec('git commit -m "auto backup"')
     ).then(
         () => myExec('git push -u origin master')
     ).then(
