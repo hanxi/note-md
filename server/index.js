@@ -12,12 +12,10 @@ router.addStaticPath(C.dist);
 
 const index = fs.readFileSync(`${C.dist}/index.html`);
 
-router.notFound( () => {
-    return handlerFactory.createHandler((req, res) => {
-        // 返回 index.html
-        res.writeHead(200, {'Content-Type': 'text/html'});
-        res.end(index);
-    });
+router.notFound( (req, res) => {
+    // 返回 index.html
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.end(index);
 });
 
 const server = http.createServer((req, res) => {
