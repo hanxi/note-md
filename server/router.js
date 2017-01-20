@@ -36,7 +36,7 @@ const missing = (req, callback) => {
 };
 
 exports.notFound = (callback) => {
-    return handlerFactory.createHandler(callback);
+    notFound => handlerFactory.createHandler(callback);
 };
 
 exports.clear = () => {
