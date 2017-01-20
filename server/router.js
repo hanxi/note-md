@@ -33,7 +33,7 @@ const missing = (req, callback) => {
             callback(handler);
         });
     } else {
-        callback(notFound.default());
+        callback(notFounds.default());
     }
 };
 
