@@ -3,7 +3,7 @@
 const http = require('http')
 const fs = require('fs')
 
-const C = require('./constant')
+const C = require('./conf')
 const router = require('./router')
 require('./api')
 

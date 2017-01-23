@@ -19,7 +19,7 @@ npm start
 
 - 在 GitHub 上建一个空项目(类似这个 [note-md-testbackup](https://github.com/hanxi/note-md-testbackup) )
 - 项目类型一定要选 private（国内的 oschina 和 Coding 都提供免费私人项目)
-- 修改 `git.js` 中的 `gitUrl` 为自己刚新建的工程的 SSH 协议的路径(HTTPS需要输入密码不适合自动备份)
+- 修改 `server/conf.js` 中的 `git` 为自己刚新建的工程的 SSH 协议的路径(HTTPS需要输入密码不适合自动备份)
 - 前提是本地配好了 id_rsa 和 GitHub 上也填写好了 id_rsa.pub
 - 默认半小时提交一次
 

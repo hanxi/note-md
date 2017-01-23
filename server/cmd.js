@@ -2,7 +2,7 @@
 
 const fs = require('fs')
 const exec = require('child_process').exec
-const C = require('./constant')
+const C = require('./conf')
 
 const myExec = function (cmd) {
   const promise = new Promise(function (resolve, reject) {

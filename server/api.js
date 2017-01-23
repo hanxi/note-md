@@ -7,7 +7,7 @@ const parser = require('url')
 const router = require('./router')
 const note = require('./note')
 const search = require('./search')
-const C = require('./constant')
+const C = require('./conf')
 
 const register = (url, method) => {
   router.register('/api' + url, method)
