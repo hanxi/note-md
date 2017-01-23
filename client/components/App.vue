@@ -100,17 +100,25 @@ export default {
         children: [],
         path: '/'
       },
-      activePath: '',
       timerIndex: -1,
-      searchText: ''
+      searchText: '',
+      searchPath: ''
     }
   },
   computed: {
     page () {
+      return this.getPage()
+    }
+  },
+  methods: {
+    getPage () {
       let page = 'note'
       const path = this.currentRoute
       if (path && path.indexOf('/search') !== -1) {
         page = 'search'
+        if (this.searchPath === '') {
+          this.getSearchList()
+        }
       } else if (path && path.substr(-1) === '/') {
         page = 'list'
         this.getNoteList()
@@ -119,9 +127,7 @@ export default {
       }
       console.log('page:', page)
       return page
-    }
-  },
-  methods: {
+    },
     getNote () {
       this.loading = true
       util.get('/api/note', {
@@ -207,6 +213,7 @@ export default {
       }
     },
     getSearchList () {
+      this.searchPath = this.path
       this.loading = true
       const parsed = queryString.parse(window.location.search)
       if (parsed.q && parsed.q !== '') {
@@ -216,14 +223,12 @@ export default {
           console.log('res', res)
           this.loading = false
           const noteList = []
-          for (const title of Object.keys(res.results)) {
-            console.log(title)
-            const item = res.results[title]
+          for (const item of res.results) {
             noteList.push({
-              title: title,
-              firstLine: item.matches[0],
-              secondLine: item.line[0],
-              path: '/' + title
+              title: item.title,
+              firstLine: item.match,
+              secondLine: item.line,
+              path: item.path
             })
           }
           this.noteList = noteList

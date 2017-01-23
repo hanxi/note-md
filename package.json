@@ -7,7 +7,7 @@
     "build": "webpack --config build/webpack.prod.js",
     "start": "node server/index.js",
     "dev": "node build/server.js",
-    "lint": "eslint client/* --ext .js --ext .vue"
+    "lint": "eslint server/* client/* --ext .js --ext .vue --fix"
   },
   "repository": {
     "type": "git",
