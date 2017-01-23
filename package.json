@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "个人笔记-markdown",
   "scripts": {
-    "init": "node server/git.js init",
+    "init": "node server/cmd.js init",
     "build": "webpack --config build/webpack.prod.js",
     "start": "node server/index.js",
     "dev": "node build/server.js",
