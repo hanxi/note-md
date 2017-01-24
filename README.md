@@ -30,6 +30,10 @@ npm start
 - [x] 目录树
 - [x] 笔记搜索
 
+### TODO
+
+- [ ] 搜索笔记时考虑搜索文件名
+
 ### 这些库帮我减少了不少时间
 
 - Markdown 转 HTML [showdown](https://github.com/showdownjs/showdown)
