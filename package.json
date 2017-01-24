@@ -27,6 +27,7 @@
   "dependencies": {
     "babel-runtime": "^6.18.0",
     "find-in-files": "^0.3.1",
+    "highlight.js": "^9.9.0",
     "is": "^3.2.0",
     "mdui": "^0.1.2",
     "mime-types": "^2.1.14",

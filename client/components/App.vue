@@ -66,7 +66,7 @@
                     <div
                         v-show="page=='note'"
                         class="mdui-container">
-                        <div v-html="note"></div>
+                        <v-note :note="note"></v-note>
                     </div>
 
                     <v-list
