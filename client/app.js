@@ -16,7 +16,7 @@ Object.keys(components).forEach((key) => {
 const app = new Vue({ ...App })
 
 window.addEventListener('popstate', (e) => {
-  app.currentRoute = window.location.pathname
+  app.currentRoute = decodeURI(window.location.pathname)
 })
 
 export default app

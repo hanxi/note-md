@@ -18,7 +18,6 @@ module.exports = (text, callback) => {
               path: title
             })
           }
-          console.log(r)
           callback(r)
         })
 }

@@ -94,7 +94,7 @@ export default {
       noteList: [],
       note: '',
       loading: false,
-      currentRoute: window.location.pathname,
+      currentRoute: decodeURI(window.location.pathname),
       treeData: {
         name: '个人笔记',
         children: [],

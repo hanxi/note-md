@@ -30,7 +30,7 @@ const resJson = (req, res, json) => {
 
 register('/folder', function (req, res) {
   const uri = parser.parse(req.url, true)
-  const pathname = uri.query.pathname
+  const pathname = decodeURI(uri.query.pathname)
   const dirname = path.join(C.noteDir, pathname)
   fs.access(dirname, (err) => {
     const exists = !err
@@ -45,9 +45,8 @@ register('/folder', function (req, res) {
 
 register('/noteList', function (req, res) {
   const uri = parser.parse(req.url, true)
-  const pathname = uri.query.pathname
+  const pathname = decodeURI(uri.query.pathname)
   const dirname = path.join(C.noteDir, pathname)
-  console.log('dirname', dirname)
   fs.access(dirname, (err) => {
     const exists = !err
     if (!exists) {
@@ -61,7 +60,7 @@ register('/noteList', function (req, res) {
 
 register('/note', function (req, res) {
   const uri = parser.parse(req.url, true)
-  const pathname = uri.query.pathname
+  const pathname = decodeURI(uri.query.pathname)
   const filename = path.join(C.noteDir, pathname)
   fs.access(filename, (err) => {
     const exists = !err
@@ -76,7 +75,7 @@ register('/note', function (req, res) {
 
 register('/search', function (req, res) {
   const uri = parser.parse(req.url, true)
-  const text = uri.query.text
+  const text = decodeURI(uri.query.text)
   search(text, (results) => {
     return resJson(req, res, { results })
   })
