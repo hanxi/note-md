@@ -67,9 +67,9 @@ _.cssProcessors.forEach(processor => {
   }
   base.module.loaders.push({
     test: processor.test,
-    loader: ExtractTextPlugin.extract({
-      loader: [_.cssLoader].concat(loaders),
-      fallbackLoader: 'style-loader'
+    use: ExtractTextPlugin.extract({
+      use: [_.cssLoader].concat(loaders),
+      fallback: 'style-loader'
     })
   })
 })
